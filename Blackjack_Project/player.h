@@ -3,21 +3,25 @@
 
 #include <iostream>
 #include <vector>
+//#include <main.cpp>
 using namespace std;
 
 class Player
 {
 public:
+    vector<int> newDeck;
+
     Player(vector<int> cards)
     {
+        newDeck = cards;
         for(int x=0;x<2;x++)
         {
-            draw(cards);
+            draw(newDeck);
         }
         bust = false;
     }
 
-    int aceChoose()
+    void aceChoose()
     {
         int ace = 0;
 
@@ -28,7 +32,7 @@ public:
         cout<<endl;
         } while(ace != 1 && ace != 11);
 
-        return ace;
+        score+=ace;
     }
 
     void draw(vector<int> deck)
@@ -43,6 +47,8 @@ public:
             if(deck[card-1] > 0)
             {
                 drawn = true;
+                deck[card-1]--;
+                newDeck = deck;
             }
         }
 
@@ -78,35 +84,43 @@ public:
         int ans;
         vector<string> cards = getCards();
 
-        cout<<"Your Cards are "<<cards[0]<<" ";
-        for(unsigned x=1;x<cards.size();x++)
+        for(unsigned x=0;x<playerCards.size();x++)
         {
-            cout<<cards[x]<<" ";
-        }
-        cout<<endl;
-
-        do
-        {
-            cout<<"Would you like to pass? (1 = Yes, 2 = no)";
-            cin>>ans;
-        } while(ans != 1 && ans != 2);
-
-        if(ans == 1)
-        {
-            for(unsigned x=0;x<playerCards.size();x++)
+            if(playerCards[x] == "Ace")
             {
-                if(playerCards[x] == "Ace")
-                {
-                    cout<<"You have an ace!"<<endl;
-                    score += aceChoose();
-                }
+                aceChoose();
             }
-            isBust();
-            return true;
+        }
+        isBust();
+
+        if(bust == false)
+        {
+            cout<<"Your Cards are "<<cards[0]<<" ";
+            for(unsigned x=1;x<cards.size();x++)
+            {
+                cout<<cards[x]<<" ";
+            }
+            cout<<endl;
+
+            do
+            {
+                cout<<"Would you like to pass? (1 = Yes, 2 = no)";
+                cin>>ans;
+            } while(ans != 1 && ans != 2);
+
+            if(ans == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
-            return false;
+            cout<<"You are over 21, You bust";
+            return true;
         }
 
     }
@@ -128,6 +142,31 @@ public:
         }
 
         return bust;
+    }
+
+    bool isBlackJack()
+    {
+        bool ace;
+        bool tenCard;
+
+        for(unsigned x=0; x<playerCards.size();x++)
+        {
+            if(playerCards[x] == "Ace")
+            {
+                ace = true;
+            }
+            else if(playerCards[x] == "Jack" || playerCards[x] == "Queen" || playerCards[x] == "King" || playerCards[x] == "10")
+            {
+                tenCard = true;
+            }
+        }
+
+        if(ace == true && tenCard == true)
+        {
+            return true;
+        }
+
+        return false;
     }
 
 private:
