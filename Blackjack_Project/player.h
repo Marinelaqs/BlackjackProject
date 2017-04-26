@@ -133,6 +133,11 @@ public:
 
     }
 
+    vector<int> setNewDeck()
+    {
+        return newDeck;
+    }
+
     vector<string> getCards()
     {
         return playerCards;
@@ -175,6 +180,11 @@ public:
         }
 
         hasBJ = false;
+    }
+
+    int getScore()
+    {
+        return score;
     }
 
 private:
