@@ -17,14 +17,8 @@ int main(int argc, char *argv[])
 
     for(int x=0;x<13;x++)
     {
-
+        
     }
-
-
-
-
-
-
 
     Player* p1 = new Player(deck);
     if(players > 1)
