@@ -19,6 +19,7 @@ public:
             draw(newDeck);
         }
         bust = false;
+        isBlackJack();
     }
 
     void aceChoose()
@@ -77,6 +78,8 @@ public:
             score += card;
         }
 
+        isBlackJack();
+
     }
 
     bool pass()
@@ -95,7 +98,12 @@ public:
 
         if(bust == false)
         {
-            cout<<"Your Cards are "<<cards[0]<<" ";
+            if(hasBJ)
+            {
+                cout<<"You have Black Jack!";
+            }
+            cout<<"Your Cards are "<<cards[0]<<" "<<endl;
+            cout<<"Your current score is: "<<score;
             for(unsigned x=1;x<cards.size();x++)
             {
                 cout<<cards[x]<<" ";
@@ -144,7 +152,7 @@ public:
         return bust;
     }
 
-    bool isBlackJack()
+    void isBlackJack()
     {
         bool ace;
         bool tenCard;
@@ -163,14 +171,15 @@ public:
 
         if(ace == true && tenCard == true)
         {
-            return true;
+            hasBJ = true;
         }
 
-        return false;
+        hasBJ = false;
     }
 
 private:
     vector<string> playerCards;
+    bool hasBJ;
     bool bust;
     int score;
 };
