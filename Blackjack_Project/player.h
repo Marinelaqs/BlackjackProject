@@ -84,14 +84,14 @@ public:
             cout<<"You have Black Jack!";
         }
         cout<<"Your Cards are "<<cards[0]<<" ";
-        for(int x=1;x<cards.size();x++)
+        for(unsigned int x=1;x<cards.size();x++)
         {
             cout<<cards[x]<<" ";
         }
         cout<<endl;
         cout<<"Your current score is: "<<score<<endl;
 
-        for(int x=0;x<playerCards.size();x++)
+        for(unsigned int x=0;x<playerCards.size();x++)
         {
             if(playerCards[x] == "Ace")
             {
@@ -156,7 +156,7 @@ public:
         bool ace;
         bool tenCard;
 
-        for(int x=0; x<playerCards.size();x++)
+        for(unsigned int x=0; x<playerCards.size();x++)
         {
             if(playerCards[x] == "Ace")
             {
