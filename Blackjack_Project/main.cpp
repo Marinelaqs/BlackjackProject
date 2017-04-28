@@ -7,6 +7,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+    //initializes each card of the deck (8 decks)
     vector<int> deck = {32,32,32,32,32,32,32,32,32,32,32,32,32};
     int players = -12;
 
@@ -17,11 +18,12 @@ int main(int argc, char *argv[])
         cout<<endl;
     }
 
-    Player* house = new Player(deck);
-    deck = house->setNewDeck();
-    vector<string> houseHand = house->getCards();
+    Player* house = new Player(deck); //House set up, nonplayer
+    deck = house->setNewDeck(); //updates the deck
+    vector<string> houseHand = house->getCards(); //sets the house's hand so it can print the first card
     cout<<"This is the House's first card: "<< houseHand[0]<<endl;
 
+    //Sets up all players
     Player* p1 = new Player(deck);
     Player* p2 = new Player(deck);
     Player* p3 = new Player(deck);
@@ -31,6 +33,7 @@ int main(int argc, char *argv[])
     Player* p7 = new Player(deck);
     Player* p8 = new Player(deck);
 
+    //updates the deck for all players (depending on num playing)
     deck = p1->setNewDeck();
     if(players > 1)
     {
@@ -61,7 +64,7 @@ int main(int argc, char *argv[])
         }
     }
 
-
+    //Changes the turn for the players
     for (int x=0; x<players; x++)
     {
         bool pass = false;
@@ -159,16 +162,18 @@ int main(int argc, char *argv[])
         }
     }
 
+    //updates the house's hand
     houseHand = house->getCards();
     cout<<"The House has: "<<houseHand[0]<<" "<<houseHand[1];
-    vector<bool> hasUsed = {false,false};
+    vector<bool> hasUsed = {false,false}; //set up for aces
     bool houseTurn = true;
 
+    //Start of the house's turn
     while(houseTurn == true)
     {
         cout<<endl<<endl;
 
-
+        //goes through every house card and sets the score for the ace
         for(unsigned int x=0;x<houseHand.size();x++)
         {
             cout<<houseHand[x]<<" ";
@@ -184,16 +189,17 @@ int main(int argc, char *argv[])
             }
         }
 
-
-        if(house->getScore()<17)
+        //checks for the house's score and drawing
+        if(house->getScore()<17) //House must draw if under 17
         {
             house->draw(deck);
             houseHand = house->getCards();
             deck = house->setNewDeck();
-            hasUsed.push_back(false);
+            hasUsed.push_back(false); //for a potential ace
         }
         else if(house->getScore()>=17 || house->isBust() == true)
         {
+            //Ends the House's turn
             if(house->hasBlackJack()==true)
             {
                 cout<<"House has Black Jack!!!!";
@@ -202,12 +208,12 @@ int main(int argc, char *argv[])
             {
                 cout<<"House has bust"<<endl;
             }
-            //houseTurn = false;
             break;
         }
     }
     cout<<endl;
 
+    //Checks for whether each player won or lost (or tied in the case of a blackjack)
     for(int x=0;x<players;x++)
     {
         if(x==0)
